@@ -152,5 +152,70 @@
     </ul>
   </div>
 </div>
+<!-- 第4週 -->
+<div class="week-box">
+  <h2>第4週（2025/08/04 - 2025/08/10）</h2>
+
+  <div class="section">
+    <h3>✅ 執行項目</h3>
+    <ul>
+      <li>研究如何改變 DDS 的相位、位寬、深度、採樣點等參數，並實際驗證輸出頻率。</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>🏁 學習成果</h3>
+    <ul>
+      <li>成功模擬出位寬 8、深度 128、16 個採樣點的正弦波。</li>
+    </ul>
+    <div class="section">
+      <h4>📄 測試檔</h4>
+      <pre style="background-color:#f4f4f4; padding:10px; border-radius:5px; overflow-x:auto;">
+`timescale 1ns/1ns
+
+module DDS_tb;
+    reg clk;
+    reg reset_n;
+    reg[31:0]Fword;
+    reg[3:0]Pword;
+    wire[7:0]DA_Data;
+        
+    DDS DDS(
+        .clk(clk),
+        .reset_n(reset_n),
+        .Fword(Fword),
+        .Pword(Pword),
+        .DA_Data(DA_Data)
+    );
+
+    initial clk = 1;
+    always #5 clk = ~clk;
+    
+    initial begin
+        reset_n = 0;
+        Fword = 268435456;
+        Pword = 15;
+        #201;
+        reset_n = 1;
+    end
+
+    // 計算
+    // Fclk = 1 / 10ns = 100MHz
+    // Fout = Fword × Fclk / 2^32
+    //      = 268435456 × 100000000 / 4294967296
+    //      = 6250000 ≅ 6.25MHz
+endmodule
+      </pre>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>🔜 下週計畫</h3>
+    <ul>
+      <li>研究如何搭配七段顯示器進行顯示與測試。</li>
+    </ul>
+  </div>
+</div>
+
 
 
